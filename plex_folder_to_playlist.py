@@ -2,15 +2,6 @@
 from plexapi.server import PlexServer
 
 
-def get_ps_name(location):
-    last_slash = location.rfind('/')
-    longeur = len(location) - last_slash
-    new = location[0:-longeur]
-    last_slash = new.rfind('/') + 1
-    new = new[last_slash:]
-    return new
-
-
 plex_base_url = "http://localhost:32400/"
 plex_token = "plex_token"
 #https://support.plex.tv/articles/204059436-finding-an-authentication-token-x-plex-token/
@@ -25,7 +16,7 @@ for section in plex.library.sections():
 
         for mus in music.searchTracks():
             location = mus.locations[0]
-            playlist_name = get_ps_name(location)
+            playlist_name = os.path.basename(os.path.dirname(location))
             playlist = [playlist for playlist in plex.playlists() if playlist.title == playlist_name]
 
             if not playlist:
